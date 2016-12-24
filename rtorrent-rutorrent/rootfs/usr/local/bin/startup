@@ -1,0 +1,35 @@
+#!/bin/sh
+
+addgroup -g ${GID} torrent && adduser -h /home/torrent -s /bin/sh -G torrent -D -u ${UID} torrent
+
+mkdir -p /data/torrents
+mkdir -p /data/.watch
+mkdir -p /data/.session
+
+if [ $WEBROOT != "/" ]; then
+    sed -i 's|<webroot>|'${WEBROOT}'|g' /etc/nginx/nginx.conf
+    sed -i 's|<webroot_rpc>|'${WEBROOT}'|g' /etc/nginx/nginx.conf
+    sed -i 's|<folder>||g' /etc/nginx/nginx.conf
+    mv /var/www/html/torrent /var/www/html${WEBROOT}
+    sed -i 's|<webroot>|'${WEBROOT}'/|g' /var/www/html${WEBROOT}/conf/config.php
+else
+    sed -i 's|<webroot>|/|g' /etc/nginx/nginx.conf
+    sed -i 's|<webroot_rpc>/|/|g' /etc/nginx/nginx.conf
+    sed -i 's|<folder>|/torrent|g' /etc/nginx/nginx.conf
+    sed -i 's|<webroot>|/|g' /var/www/html/torrent/conf/config.php
+fi
+sed -i 's|<PORT_RTORRENT>|'$PORT_RTORRENT'|g' /home/torrent/.rtorrent.rc
+
+if [ -e /filebot ]; then
+    mkdir -p /data/Media/Movies
+    mkdir -p /data/Media/TV
+    mkdir -p /data/Media/Animes
+    mkdir -p /data/Media/Music
+    chown -R torrent:torrent /filebot
+fi
+
+chown -R torrent:torrent /data /var/www /etc/s6.d /home/torrent /var/lib/nginx /etc/php7 /etc/nginx /var/log /tmp
+
+rm -f /data/.session/rtorrent.lock
+
+exec su-exec torrent:torrent "$@"

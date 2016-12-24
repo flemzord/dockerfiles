@@ -1,0 +1,39 @@
+FROM alpine:3.4
+MAINTAINER Flemzord <https://github.com/flemzord>
+
+ENV WEBROOT="" \
+    UID=991 \
+    GID=991
+
+LABEL description="Couchpotato based on alpine" \
+      tags="latest" \
+      build_ver="2016110801"
+
+RUN export BUILD_DEPS="py-pip \
+                    build-base \
+                    libxml2-dev \
+                    python-dev \
+                    libxslt-dev \
+                    libffi-dev \
+                    openssl-dev" \
+    && apk add -U python \
+                libxml2 \
+                libxslt \
+                libffi \
+                git \
+                su-exec \
+                s6 \
+                ${BUILD_DEPS} \
+    && git clone https://github.com/CouchPotato/CouchPotatoServer \
+    && cd /CouchPotatoServer \
+    && pip install lxml pyopenssl \
+    && apk del ${BUILD_DEPS} \
+    && rm -fr /var/cache/apk/* ~/.pip/cache/*
+
+VOLUME ["/config"]
+EXPOSE 5050
+COPY rootfs /
+RUN chmod +x /usr/local/bin/startup /etc/s6.d/*/*
+
+ENTRYPOINT ["/usr/local/bin/startup"]
+CMD ["/bin/s6-svscan", "/etc/s6.d"]
