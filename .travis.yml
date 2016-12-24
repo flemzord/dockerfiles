@@ -14,5 +14,5 @@ env:
   - COMMIT=${TRAVIS_COMMIT::8}
 install: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 script:
-  - chmod +x build.sh
-  - ./build.sh push
+  - chmod +x build_all.sh
+  - ./build_all.sh push
