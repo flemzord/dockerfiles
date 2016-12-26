@@ -6,7 +6,7 @@ In this repository, you will find lots of dockerfiles, with a philosophy of bein
 Most dockerfiles, are based on [alpine Linux](http://alpinelinux.org/), which is a very light GNU/Linux distribution.
 
 ## Build
-Now, all my images is build and push with [drone.io](https://github.com/drone/drone), a circle-ci like self-hosted.
+Now, all my images is build and push with [Travis CI](https://travis-ci.org).
 If you don't trust, you can build yourself images. Instructions are on README.
 
 ## Contributing
