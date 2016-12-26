@@ -25,9 +25,9 @@ if [ "$1" == "all" ]; then
     for build in $(find ./* -name "build.sh" -print);
         do
         	chmod +x $build &&  
-        	echo -ne "${gre} [BUILD] ${blu} --> Launch $build" && 
+        	echo -ne "${gre} [BUILD] ${blu} --> Launch $build \n" && 
         	bash $build build >> /dev/null &&
-        	echo -ne "${gre} [PUSH] ${blu} --> Launch $build" && 
+        	echo -ne "${gre} [PUSH] ${blu} --> Launch $build \n" && 
         	bash $build push >> /dev/null;
     done
 fi
