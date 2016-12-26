@@ -15,4 +15,4 @@ env:
 install: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 script:
   - chmod +x build_all.sh
-  - ./build_all.sh all
+  - travis_wait 60 ./build_all.sh all
