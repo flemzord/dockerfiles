@@ -1,4 +1,4 @@
-FROM php:7.1.0-fpm-alpine
+FROM php:7.0-fpm-alpine
 
 RUN apk add --no-cache --virtual .phpize-deps-configure $PHPIZE_DEPS \
     && pecl install redis \
