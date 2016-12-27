@@ -95,20 +95,6 @@ RUN export BUILD_DEPS="build-base \
     && ln -s /usr/bin/php7 /usr/bin/php
 
 COPY rootfs /
-ARG WITH_FILEBOT=NO
-ARG FILEBOT_VER=4.7.2
-
-RUN if [ "${WITH_FILEBOT}" == "YES" ]; then \
-        apk add -U openjdk8-jre \
-        && mkdir /filebot \
-        && cd /filebot \
-        && wget http://downloads.sourceforge.net/project/filebot/filebot/FileBot_${FILEBOT_VER}/FileBot_${FILEBOT_VER}-portable.zip \
-        && unzip FileBot_${FILEBOT_VER}-portable.zip \
-        && echo 'system.method.set_key=event.download.finished,filebot,"execute={/usr/local/bin/postdl,$d.get_base_path=,$d.get_name=,$d.get_custom1=}"' >> /home/torrent/.rtorrent.rc \
-        && echo 'system.method.set_key=event.download.erased,filebot_cleaner,"execute={/usr/local/bin/postrm}"' >> /home/torrent/.rtorrent.rc \
-        && rm -rf /var/cache/apk/* /tmp/* /FileBot_${FILEBOT_VER}-portable.zip \
-        && chmod +x /usr/local/bin/post* \
-    ;fi
 
 VOLUME /data
 EXPOSE 8080
