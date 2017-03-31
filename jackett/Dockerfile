@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.5
 MAINTAINER Flemzord <https://github.com/flemzord>
 
 ARG JACKETT_VER=0.7.817

@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.5
 MAINTAINER Flemzord <https://github.com/flemzord>
 
 LABEL description="Caddy based on alpine"
